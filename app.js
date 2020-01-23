@@ -4,6 +4,7 @@ const tempLo = document.getElementById("tempLo");
 const conditions = document.getElementById("conditions");
 const cityName = document.getElementById("cityName");
 const currTime = document.getElementById("currTime");
+const weatherIcon = document.getElementById("weatherIcon");
 
 let weatherData;
 
@@ -29,9 +30,10 @@ function displayWeather(data) {
   data.main == undefined
     ? (cityName.innerText = "City Not Found")
     : (cityName.innerText = data.name);
-  currTemp.innerText = data.main.temp;
-  tempHi.innerText = data.main.temp_max;
-  tempLo.innerText = data.main.temp_min;
+  weatherIcon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  currTemp.innerText = `Current Temperature: ${data.main.temp}°F`;
+  tempHi.innerText = `High: ${data.main.temp_max}`;
+  tempLo.innerText = `Low: ${data.main.temp_min}`;
   conditions.innerText = data.weather[0].main;
   currTime.innerText = getTime(data.dt, data.timezone);
 }
@@ -48,8 +50,10 @@ function getTime(unix, tzoffset) {
     meridiem = "AM";
   }
 
+  if (mins < 10) mins = `0${mins}`;
+
   let time = `As of ${hrs}:${mins} ${meridiem}`;
   return time;
 }
 
-getWeather("Denver");
+getWeather("detroit");
