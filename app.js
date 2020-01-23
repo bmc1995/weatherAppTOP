@@ -1,33 +1,55 @@
-const currTemp = document.getElementById('currTemp');
-const tempHi = document.getElementById('tempHi');
-const tempLo = document.getElementById('tempLo');
-const conditions = document.getElementById('conditions');
-const cityName = document.getElementById('cityName');
+const currTemp = document.getElementById("currTemp");
+const tempHi = document.getElementById("tempHi");
+const tempLo = document.getElementById("tempLo");
+const conditions = document.getElementById("conditions");
+const cityName = document.getElementById("cityName");
+const currTime = document.getElementById("currTime");
 
 let weatherData;
 
 async function getWeather(location) {
-    try{
-        await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=6d2303fc6e291bdfc8c01fd07ded0995`)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(response) {
-                weatherData = response;
-                displayWeather(response)
-                console.log(response);
-            });
-    } catch (error) {
-        console.error(error)
-    }
+  try {
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=6d2303fc6e291bdfc8c01fd07ded0995`
+    )
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(response) {
+        weatherData = response;
+        displayWeather(response);
+        console.log(response);
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function displayWeather(data) {
-    data.main == undefined ? cityName.innerText = 'City Not Found' : cityName.innerText = data.name;
-    currTemp.innerText = data.main.temp;
-    tempHi.innerText = data.main.temp_max;
-    tempLo.innerText = data.main.temp_min;
-    conditions.innerText = data.weather[0].main;
+  data.main == undefined
+    ? (cityName.innerText = "City Not Found")
+    : (cityName.innerText = data.name);
+  currTemp.innerText = data.main.temp;
+  tempHi.innerText = data.main.temp_max;
+  tempLo.innerText = data.main.temp_min;
+  conditions.innerText = data.weather[0].main;
+  currTime.innerText = getTime(data.dt, data.timezone);
+}
+//since the offset is included, the UTC time is converted to the timezone of the weather data.
+function getTime(unix, tzoffset) {
+  let meridiem;
+  let hrs = new Date((unix + tzoffset) * 1000).getUTCHours();
+  let mins = new Date((unix + tzoffset) * 1000).getUTCMinutes();
+
+  if (hrs > 12) {
+    meridiem = "PM";
+    hrs -= 12;
+  } else {
+    meridiem = "AM";
+  }
+
+  let time = `As of ${hrs}:${mins} ${meridiem}`;
+  return time;
 }
 
-getWeather('denver')
+getWeather("Denver");
