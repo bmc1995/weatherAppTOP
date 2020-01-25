@@ -21,6 +21,17 @@ body{
 }
 
 form{
-    position: absolute;
-    top: 25vh;
+    position: fixed;
+    top: 15vh;
+}
+
+@media screen and (max-width: 600px){
+    form{
+        top: 10vh;
+        text-align: center;
+    }
+
+    .weatherCard{
+        width: 75vw;
+    }
 }
