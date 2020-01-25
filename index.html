@@ -5,20 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
-    <title>Bilbo's Weather App</title>
+    <script async src="app.js"></script>
+    <title>Weather App</title>
   </head>
   <body>
     <div class="container">
+      <form id="myForm" name="myForm" onsubmit="return false">
+        <label for="cityInput">  
+          <input name="cityInput" type="text">
+        </label>
+        <input id="getWeather" type="button" value="Get Weather">
+      </form>
       <div class="weatherCard">
         <h2>Current Weather in <span id="cityName">...</span></h2>
         <p id="currTime"></p>
-        <img id="weatherIcon" src="#" />
-        <p id="conditions"></p>
+        <img id="weatherIcon"/>
+        <p id="conditions">Pick a city, any city!</p>
         <p id="currTemp"></p>
         <p id="tempHi"></p>
         <p id="tempLo"></p>
       </div>
     </div>
   </body>
-  <script src="app.js"></script>
+
 </html>

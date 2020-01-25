@@ -5,8 +5,10 @@ const conditions = document.getElementById("conditions");
 const cityName = document.getElementById("cityName");
 const currTime = document.getElementById("currTime");
 const weatherIcon = document.getElementById("weatherIcon");
+const myForm = document.getElementById("myForm");
+const getWeatherbtn = document.getElementById("getWeather");
 
-let weatherData;
+
 
 async function getWeather(location) {
   try {
@@ -17,7 +19,6 @@ async function getWeather(location) {
         return response.json();
       })
       .then(function(response) {
-        weatherData = response;
         displayWeather(response);
         console.log(response);
       });
@@ -26,7 +27,7 @@ async function getWeather(location) {
   }
 }
 
-function displayWeather(data) {
+async function displayWeather(data) {
   data.main == undefined
     ? (cityName.innerText = "City Not Found")
     : (cityName.innerText = data.name);
@@ -37,6 +38,7 @@ function displayWeather(data) {
   conditions.innerText = data.weather[0].main;
   currTime.innerText = getTime(data.dt, data.timezone);
 }
+
 //since the offset is included, the UTC time is converted to the timezone of the weather data.
 function getTime(unix, tzoffset) {
   let meridiem;
@@ -56,4 +58,9 @@ function getTime(unix, tzoffset) {
   return time;
 }
 
-getWeather("detroit");
+getWeatherbtn.addEventListener('click', () =>{
+  let formData = new FormData(myForm);
+  getWeather(formData.get("cityInput"))
+});
+
+getWeather('new york city')
